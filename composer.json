@@ -1,0 +1,16 @@
+{
+    "name": "nordsoftware/yii-paymentmanager",
+    "description": "Payment manager for the Yii PHP framework.",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Christoffer Niska",
+            "email": "christoffer.niska@nordsoftware.com"
+        }
+    ],
+    "require": {
+        "crisu83/yii-extension": ">=1.1.1",
+        "nordsoftware/paytrail-php": "0.1.*"
+    }
+}
