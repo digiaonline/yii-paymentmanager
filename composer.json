@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "crisu83/yii-extension": ">=1.1.1",
-        "nordsoftware/paytrail-php": "0.1.*"
+        "crisu83/yii-extension": ">=1.1.1"
+    },
+    "suggest": {
+    	"nordsoftware/yii-paytrail": "0.1.*"
     }
 }
