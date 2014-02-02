@@ -21,8 +21,6 @@
  * @property string $description
  * @property string $currency
  * @property string $locale
- * @property string $successUrl
- * @property string $failureUrl
  * @property integer $status
  *
  * The followings are the available model relations:
@@ -105,7 +103,6 @@ class PaymentTransaction extends PaymentActiveRecord
             array('status', 'numerical', 'integerOnly' => true),
             array('methodId, shippingContactId, billingContactId', 'length', 'max' => 10),
             array('orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
-            array('successUrl, failureUrl', 'safe'),
         );
     }
 
@@ -138,8 +135,6 @@ class PaymentTransaction extends PaymentActiveRecord
             'description' => Yii::t('payment', 'Description'),
             'currency' => Yii::t('payment', 'Currency'),
             'locale' => Yii::t('payment', 'Locale'),
-            'successUrl' => Yii::t('payment', 'Success URL'),
-            'failureUrl' => Yii::t('payment', 'Failure URL'),
             'status' => Yii::t('payment', 'Status'),
         );
     }
