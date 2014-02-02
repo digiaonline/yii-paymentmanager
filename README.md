@@ -11,7 +11,7 @@ It leaves a lot of room for implementing the actual payment gateway, because eve
 
 ### Installation and configuration
 
-The easiest way to install the payment manager is to use Composer.
+The easiest way to install payment manager is to use Composer.
 Add the following to your composer.json file:
 
 ```js
@@ -39,8 +39,8 @@ Add the following to your application configuration:
     .....
     'payment' => array(
         'class' => 'vendor.nordsoftware.yii-paymentmanager.components.PaymentManager',
-        'successRoute' => 'payment/success',
-        'successRoute' => 'payment/failure',
+        'successAction' => 'payment/success',
+        'failureAction' => 'payment/failure',
         'gateways' => array(
             .....
         ),
@@ -66,8 +66,6 @@ $transaction = PaymentTransaction::create(
         'price' => 100.00,
         'currency' => 'EUR',
         'vat' => 28.00,
-        'successUrl' => Yii::app()->createAbsoluteUrl('/bookPurchase/success'),
-        'failureUrl' => Yii::app()->createAbsoluteUrl('/bookPurchase/failure'),
     )
 );
 
