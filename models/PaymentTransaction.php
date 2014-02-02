@@ -24,7 +24,6 @@
  * @property integer $status
  *
  * The followings are the available model relations:
- * @property PaymentMethod $method
  * @property PaymentContact $shippingContact
  * @property PaymentContact $billingContact
  * @property PaymentItem[] $items
@@ -39,7 +38,8 @@ class PaymentTransaction extends PaymentActiveRecord
     const STATUS_STARTED = 1;
     const STATUS_PROCESSED = 2;
     const STATUS_PENDING = 3;
-    const STATUS_COMPLETED = 4;
+    const STATUS_SUCCESSFUL = 4;
+    const STATUS_COMPLETED = 5;
     const STATUS_FAILED = 100;
 
     /**
@@ -72,11 +72,15 @@ class PaymentTransaction extends PaymentActiveRecord
                         ),
                         self::STATUS_PROCESSED => array(
                             'label' => t('payment', 'Processed'),
-                            'transitions' => array(self::STATUS_PENDING, self::STATUS_COMPLETED, self::STATUS_FAILED),
+                            'transitions' => array(self::STATUS_PENDING, self::STATUS_SUCCESSFUL, self::STATUS_FAILED),
                         ),
                         self::STATUS_PENDING => array(
                             'label' => t('payment', 'Pending'),
                             'transitions' => array(self::STATUS_COMPLETED, self::STATUS_FAILED),
+                        ),
+                        self::STATUS_SUCCESSFUL => array(
+                            'label' => t('payment', 'Successful'),
+                            'transitions' => array(self::STATUS_COMPLETED),
                         ),
                         self::STATUS_COMPLETED => array(
                             'label' => t('payment', 'Completed'),
