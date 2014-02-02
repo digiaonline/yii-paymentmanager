@@ -87,7 +87,7 @@ class PaymentManager extends CApplicationComponent
      */
     public function startTransaction(PaymentTransaction $transaction)
     {
-        if (!isset($transaction->gatway)) {
+        if (!isset($transaction->gateway)) {
             throw new CException('Cannot start transaction without a payment gateway.');
         }
         if (!isset($transaction->shippingContactId)) {
@@ -101,10 +101,10 @@ class PaymentManager extends CApplicationComponent
 
         $gateway = $this->createGateway($transaction->gateway);
         $manager = $this;
-        $gateway->onPaymentSuccess = function(CEvent $event) use ($manager, $transaction) {
+        $gateway->onTransactionProcessed = function(CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_PROCESSED, $transaction);
         };
-        $gateway->onPaymentFailed = function(CEvent $event) use ($manager, $transaction) {
+        $gateway->onTransactionFailed = function(CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_FAILED, $transaction);
         };
         $gateway->handleTransaction($transaction);
