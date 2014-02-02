@@ -39,8 +39,8 @@ Add the following to your application configuration:
     .....
     'payment' => array(
         'class' => 'vendor.nordsoftware.yii-paymentmanager.components.PaymentManager',
-        'successAction' => 'payment/success',
-        'failureAction' => 'payment/failure',
+        'successUrl' => array('payment/success'),
+        'failureUrl' => array('payment/failure'),
         'gateways' => array(
             .....
         ),
