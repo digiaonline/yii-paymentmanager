@@ -37,33 +37,17 @@ abstract class PaymentGateway extends CComponent
     /**
      * @param CEvent $event
      */
-    public function onPaymentFailed(CEvent $event)
+    public function onTransactionProcessed(CEvent $event)
     {
-        $this->raiseEvent('onPaymentFailed', $event);
+        $this->raiseEvent('onTransactionProcessed', $event);
     }
 
     /**
      * @param CEvent $event
      */
-    public function onPaymentSuccess(CEvent $event)
+    public function onTransactionFailed(CEvent $event)
     {
-        $this->raiseEvent('onPaymentSuccess', $event);
-    }
-
-    /**
-     * @param CEvent $event
-     */
-    public function onPaymentNotify(CEvent $event)
-    {
-        $this->raiseEvent('onPaymentNotify', $event);
-    }
-
-    /**
-     * @param CEvent $event
-     */
-    public function onPaymentPending(CEvent $event)
-    {
-        $this->raiseEvent('onPaymentPending', $event);
+        $this->raiseEvent('onTransactionFailed', $event);
     }
 
     /**
