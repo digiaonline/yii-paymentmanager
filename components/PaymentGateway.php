@@ -23,9 +23,8 @@ abstract class PaymentGateway extends CComponent
 {
     /**
      * @param PaymentTransaction $transaction
-     * @param int $orderId
      */
-    abstract public function handleTransaction($orderId, $transaction);
+    abstract public function handleTransaction($transaction);
 
     /**
      * Initializes this component.
@@ -40,7 +39,7 @@ abstract class PaymentGateway extends CComponent
      */
     public function onPaymentFailed(CEvent $event)
     {
-        $this->raiseEvent('paymentFailed', $event);
+        $this->raiseEvent('onPaymentFailed', $event);
     }
 
     /**
@@ -48,7 +47,7 @@ abstract class PaymentGateway extends CComponent
      */
     public function onPaymentSuccess(CEvent $event)
     {
-        $this->raiseEvent('paymentSuccess', $event);
+        $this->raiseEvent('onPaymentSuccess', $event);
     }
 
     /**
@@ -56,7 +55,7 @@ abstract class PaymentGateway extends CComponent
      */
     public function onPaymentNotify(CEvent $event)
     {
-        $this->raiseEvent('paymentNotify', $event);
+        $this->raiseEvent('onPaymentNotify', $event);
     }
 
     /**
@@ -64,7 +63,7 @@ abstract class PaymentGateway extends CComponent
      */
     public function onPaymentPending(CEvent $event)
     {
-        $this->raiseEvent('paymentPending', $event);
+        $this->raiseEvent('onPaymentPending', $event);
     }
 
     /**
