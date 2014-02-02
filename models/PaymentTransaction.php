@@ -12,6 +12,7 @@
  *
  * The followings are the available columns in table 'payment_transaction':
  * @property string $id
+ * @property integer $orderIdentifier
  * @property integer $userIdentifier
  * @property integer $methodId
  * @property integer $shippingContactId
@@ -100,10 +101,10 @@ class PaymentTransaction extends PaymentActiveRecord
     public function rules()
     {
         return array(
-            array('methodId, description, currency, locale', 'required'),
+            array('methodId, orderIdentifier, description, currency, locale', 'required'),
             array('status', 'numerical', 'integerOnly' => true),
             array('methodId, shippingContactId, billingContactId', 'length', 'max' => 10),
-            array('userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
+            array('orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
             array('successUrl, failureUrl', 'safe'),
         );
     }
@@ -128,6 +129,7 @@ class PaymentTransaction extends PaymentActiveRecord
     {
         return array(
             'id' => Yii::t('payment', 'ID'),
+            'orderIdentifier' => Yii::t('payment', 'Order identifier'),
             'userIdentifier' => Yii::t('payment', 'User identifier'),
             'methodId' => Yii::t('payment', 'Method'),
             'shippingContactId' => Yii::t('payment', 'Shipping contact'),
@@ -193,7 +195,7 @@ class PaymentTransaction extends PaymentActiveRecord
     {
         $model = new PaymentTransaction;
         $model->attributes = $attributes;
-        $model->userIdentifier = Yii::app()->user->id;
+        $model->userIdentifier = isset($attributes['userIdentifier']) ? $attributes['userIdentifier'] : Yii::app()->user->id;
         $model->locale = isset($attributes['locale']) ? $attributes['locale'] : Yii::app()->language;
         if (!$model->save()) {
             throw new CException('Failed to save payment transaction.');
