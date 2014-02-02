@@ -20,6 +20,8 @@
  * @property string $description
  * @property string $currency
  * @property string $locale
+ * @property string $successUrl
+ * @property string $failureUrl
  * @property integer $status
  *
  * The followings are the available model relations:
@@ -39,7 +41,7 @@ class PaymentTransaction extends PaymentActiveRecord
     const STATUS_PROCESSED = 2;
     const STATUS_PENDING = 3;
     const STATUS_COMPLETED = 4;
-    const STATUS_FAILED = 30;
+    const STATUS_FAILED = 100;
 
     /**
      * @return string the associated database table name
@@ -98,10 +100,11 @@ class PaymentTransaction extends PaymentActiveRecord
     public function rules()
     {
         return array(
-            array('methodId, shippingContactId, description, currency, locale', 'required'),
+            array('methodId, description, currency, locale', 'required'),
             array('status', 'numerical', 'integerOnly' => true),
             array('methodId, shippingContactId, billingContactId', 'length', 'max' => 10),
             array('userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
+            array('successUrl, failureUrl', 'safe'),
         );
     }
 
@@ -133,6 +136,8 @@ class PaymentTransaction extends PaymentActiveRecord
             'description' => Yii::t('payment', 'Description'),
             'currency' => Yii::t('payment', 'Currency'),
             'locale' => Yii::t('payment', 'Locale'),
+            'successUrl' => Yii::t('payment', 'Success URL'),
+            'failureUrl' => Yii::t('payment', 'Failure URL'),
             'status' => Yii::t('payment', 'Status'),
         );
     }
@@ -147,7 +152,7 @@ class PaymentTransaction extends PaymentActiveRecord
         $item->attributes = $attributes;
         $item->transactionId = $this->id;
         if (!$item->save()) {
-            throw new CException(sprintf('Failed to save item for transaction #%d.', $this->id));
+            throw new CException(sprintf('Failed to add item to transaction #%d.', $this->id));
         }
         return $item;
     }
@@ -159,6 +164,10 @@ class PaymentTransaction extends PaymentActiveRecord
     {
         $contact = PaymentContact::create($attributes);
         $this->shippingContactId = $contact->id;
+        if (!$this->save(true, array('shippingContactId'))) {
+            throw new CException(sprintf('Failed to add shipping contact for transaction #%d', $this->id));
+        }
+        return $contact;
     }
 
     /**
@@ -168,6 +177,10 @@ class PaymentTransaction extends PaymentActiveRecord
     {
         $contact = PaymentContact::create($attributes);
         $this->billingContactId = $contact->id;
+        if (!$this->save(true, array('billingContactId'))) {
+            throw new CException(sprintf('Failed to add billing contact for transaction #%d', $this->id));
+        }
+        return $contact;
     }
 
     /**
