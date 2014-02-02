@@ -16,14 +16,15 @@ Add the following to your application configuration:
     'payment' => array(
         'class' => 'vendor.nordsoftware.yii-paymentmanager.components.PaymentManager',
         'gateways' => array(
-            'paytrail' => array(
-                'class' => 'vendor.nordsoftware.yii-paytrail.components.PaytrailGateway',
-            ),
+            .....
         ),
     ),
 ),
 .....
 ```
+
+_Please note that the payment manager does not include any actual implementation of payment gateways.
+For an example on an implementation see our Paytrail implementation at: http://github.com/nordsoftware/yii-paytrail_
 
 ### Create a transaction
 
@@ -34,6 +35,7 @@ Below you can find a simple example on how to create a transaction and process i
 $transaction = PaymentTransaction::create(
     array(
         'methodId' => 1, // payment gateway id
+        'orderIdentifier' => 1, // order id or similar
         'description' => 'Test payment',
         'price' => 100.00,
         'currency' => 'EUR',
@@ -83,5 +85,5 @@ $transaction->addItem(
 );
 
 // associate the transaction with order #1 and starts it
-Yii::app()->payment->startTransaction(1, $transaction);
+Yii::app()->payment->startTransaction($transaction);
 ```

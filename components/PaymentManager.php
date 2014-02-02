@@ -72,10 +72,9 @@ class PaymentManager extends CApplicationComponent
 
     /**
      * Starts the given transaction.
-     * @param int $orderId
      * @param PaymentTransaction $transaction
      */
-    public function startTransaction($orderId, PaymentTransaction $transaction)
+    public function startTransaction(PaymentTransaction $transaction)
     {
         if (!isset($transaction->shippingContactId)) {
             throw new CException('Cannot pay a transaction without a shipping contact.');
@@ -98,7 +97,7 @@ class PaymentManager extends CApplicationComponent
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_FAILED, $transaction);
         };
 
-        $gateway->handleTransaction($orderId, $transaction);
+        $gateway->handleTransaction($transaction);
     }
 
     /**

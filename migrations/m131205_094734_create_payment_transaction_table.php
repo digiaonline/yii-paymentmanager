@@ -8,6 +8,7 @@ class m131205_094734_create_payment_transaction_table extends CDbMigration
             "CREATE TABLE `payment_transaction` (
                 `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
                 `methodId` INT UNSIGNED NOT NULL,
+                `orderIdentifier` VARCHAR(255) NOT NULL,
                 `userIdentifier` VARCHAR(255) NULL DEFAULT NULL,
                 `shippingContactId` INT UNSIGNED NULL DEFAULT NULL,
                 `billingContactId` INT UNSIGNED NULL DEFAULT NULL,
