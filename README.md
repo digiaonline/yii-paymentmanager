@@ -108,6 +108,5 @@ $transaction->addItem(
     )
 );
 
-// associate the transaction with order #1 and starts it
 Yii::app()->payment->startTransaction($transaction);
 ```
