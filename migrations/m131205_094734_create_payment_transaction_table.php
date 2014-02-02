@@ -16,8 +16,6 @@ class m131205_094734_create_payment_transaction_table extends CDbMigration
                 `description` VARCHAR(255) NOT NULL,
                 `currency` VARCHAR(255) NOT NULL,
                 `locale` VARCHAR(255) NOT NULL,
-                `successUrl` TEXT NOT NULL,
-                `failureUrl` TEXT NOT NULL,
                 `status` TINYINT(4) NOT NULL DEFAULT '0',
                 PRIMARY KEY (`id`)
             ) COLLATE='utf8_general_ci' ENGINE=InnoDB;"

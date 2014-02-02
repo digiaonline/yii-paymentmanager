@@ -3,18 +3,44 @@ yii-paymentmanager
 
 Payment manager for the Yii PHP framework.
 
+The goal behind the payment manager is to provide an easy-to-use API for making payments through any payment gateway in Yii applications.
+It includes a bunch of models that holds unified data for payments that can be used to implement any payment gateway necessary.
+It leaves a lot of room for implementing the actual payment gateway, because every payment gateways works a bit differently.
+
 ## Usage
 
-### Configuration
+### Installation and configuration
+
+The easiest way to install the payment manager is to use Composer.
+Add the following to your composer.json file:
+
+```js
+.....
+"require": {
+	"nordsoftware/yii-paymentmanager": "0.1.*"
+}
+````
+
+Run the following command to download the extension:
+
+```bash
+php composer.phar update
+```
 
 Add the following to your application configuration:
 
 ```php
 .....
+'import' => array(
+	'vendor.nordsoftware.yii-paymentmanager.components.*',
+	'vendor.nordsoftware.yii-paymentmanager.models.*',
+),
 'components' => array(
     .....
     'payment' => array(
         'class' => 'vendor.nordsoftware.yii-paymentmanager.components.PaymentManager',
+        'successRoute' => 'payment/success',
+        'successRoute' => 'payment/failure',
         'gateways' => array(
             .....
         ),
@@ -23,8 +49,8 @@ Add the following to your application configuration:
 .....
 ```
 
-_Please note that the payment manager does not include any actual implementation of payment gateways.
-For an example on an implementation see our Paytrail implementation at: http://github.com/nordsoftware/yii-paytrail_
+_Please note that the payment manager does not include any actual payment gateway implementations.
+For an example implementation see our Paytrail implementation at: http://github.com/nordsoftware/yii-paytrail_
 
 ### Create a transaction
 
