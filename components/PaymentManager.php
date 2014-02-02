@@ -22,16 +22,6 @@
 class PaymentManager extends CApplicationComponent
 {
     /**
-     * @var string
-     */
-    public $methodClass = 'PaymentMethod';
-
-    /**
-     * @var string
-     */
-    public $transactionClass = 'PaymentTransaction';
-
-    /**
      * @var array
      */
     public $gateways = array();
@@ -45,6 +35,11 @@ class PaymentManager extends CApplicationComponent
      * @var mixed
      */
     public $failureUrl;
+
+    /**
+     * @var string
+     */
+    public $transactionClass = 'PaymentTransaction';
 
     /**
      * @var string
@@ -80,7 +75,7 @@ class PaymentManager extends CApplicationComponent
     public function createGateway($name, array $config = array())
     {
         if (!isset($this->gateways[$name])) {
-            throw new CException(sprintf('Failed to find payment gateway "%s".', $name));
+            throw new CException(sprintf('Failed to create payment gateway "%s".', $name));
         }
         $config = CMap::mergeArray($this->gateways[$name], $config);
         return PaymentGateway::create($config);
@@ -92,27 +87,26 @@ class PaymentManager extends CApplicationComponent
      */
     public function startTransaction(PaymentTransaction $transaction)
     {
+        if (!isset($transaction->gatway)) {
+            throw new CException('Cannot start transaction without a payment gateway.');
+        }
         if (!isset($transaction->shippingContactId)) {
-            throw new CException('Cannot pay a transaction without a shipping contact.');
+            throw new CException('Cannot start transaction without a shipping contact.');
         }
         if (!count($transaction->items)) {
-            throw new CException('Cannot pay a transaction without any items.');
+            throw new CException('Cannot start transaction without any items.');
         }
 
         $this->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
 
-        $method = $this->loadMethod($transaction->methodId);
-        $gateway = $this->createGateway($method->name);
-
+        $gateway = $this->createGateway($transaction->gateway);
         $manager = $this;
-
         $gateway->onPaymentSuccess = function(CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_PROCESSED, $transaction);
         };
         $gateway->onPaymentFailed = function(CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_FAILED, $transaction);
         };
-
         $gateway->handleTransaction($transaction);
     }
 
@@ -132,21 +126,6 @@ class PaymentManager extends CApplicationComponent
                 'transactionStatus' => $transaction->status,
             )
         );
-    }
-
-    /**
-     * Loads a payment method model.
-     * @param int $id
-     * @return PaymentMethod
-     * @throws CException
-     */
-    public function loadMethod($id)
-    {
-        $method = CActiveRecord::model($this->methodClass)->findByPk($id);
-        if ($method === null) {
-            throw new CException(sprintf('Failed to load payment method #%d.', $id));
-        }
-        return $method;
     }
 
     /**
