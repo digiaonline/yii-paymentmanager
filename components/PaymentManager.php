@@ -71,12 +71,19 @@ class PaymentManager extends CApplicationComponent
     }
 
     /**
-     * Pays the given transaction.
+     * Starts the given transaction.
      * @param int $orderId
      * @param PaymentTransaction $transaction
      */
-    public function pay($orderId, PaymentTransaction $transaction)
+    public function startTransaction($orderId, PaymentTransaction $transaction)
     {
+        if (!isset($transaction->shippingContactId)) {
+            throw new CException('Cannot pay a transaction without a shipping contact.');
+        }
+        if (!count($transaction->items)) {
+            throw new CException('Cannot pay a transaction without any items.');
+        }
+
         $this->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
 
         $method = $this->loadMethod($transaction->methodId);
