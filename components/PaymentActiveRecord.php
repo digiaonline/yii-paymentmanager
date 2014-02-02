@@ -7,6 +7,6 @@
  * @package nordsoftware.yii-payment.components
  */
 
-class PaymentActiveRecord extends CActiveRecord
+abstract class PaymentActiveRecord extends CActiveRecord
 {
 }
