@@ -39,12 +39,12 @@ class PaymentManager extends CApplicationComponent
     /**
      * @var string
      */
-    public $successRoute;
+    public $successAction;
 
     /**
      * @var string
      */
-    public $failureRoute;
+    public $failureAction;
 
     /**
      * @var string path to the yii-extension library.
@@ -62,11 +62,11 @@ class PaymentManager extends CApplicationComponent
         $this->createPathAlias('payment', dirname(__DIR__));
         $this->import('components.*');
         $this->import('models.*');
-        if (!isset($this->successRoute)) {
-            throw new CException('PaymentManager.successRoute must be set.');
+        if (!isset($this->successAction)) {
+            throw new CException('PaymentManager.successAction must be set.');
         }
-        if (!isset($this->failureRoute)) {
-            throw new CException('PaymentManager.failureRoute must be set.');
+        if (!isset($this->failureAction)) {
+            throw new CException('PaymentManager.failureAction must be set.');
         }
     }
 
