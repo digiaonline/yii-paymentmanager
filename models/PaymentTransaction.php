@@ -12,9 +12,9 @@
  *
  * The followings are the available columns in table 'payment_transaction':
  * @property string $id
+ * @property integer $gateway
  * @property integer $orderIdentifier
  * @property integer $userIdentifier
- * @property integer $methodId
  * @property integer $shippingContactId
  * @property integer $billingContactId
  * @property string $referenceNumber
@@ -99,10 +99,10 @@ class PaymentTransaction extends PaymentActiveRecord
     public function rules()
     {
         return array(
-            array('methodId, orderIdentifier, description, currency, locale', 'required'),
+            array('gateway, orderIdentifier, description, currency, locale', 'required'),
             array('status', 'numerical', 'integerOnly' => true),
-            array('methodId, shippingContactId, billingContactId', 'length', 'max' => 10),
-            array('orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
+            array('shippingContactId, billingContactId', 'length', 'max' => 10),
+            array('gateway, orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
         );
     }
 
@@ -126,9 +126,9 @@ class PaymentTransaction extends PaymentActiveRecord
     {
         return array(
             'id' => Yii::t('payment', 'ID'),
+            'gateway' => Yii::t('payment', 'Gateway'),
             'orderIdentifier' => Yii::t('payment', 'Order identifier'),
             'userIdentifier' => Yii::t('payment', 'User identifier'),
-            'methodId' => Yii::t('payment', 'Method'),
             'shippingContactId' => Yii::t('payment', 'Shipping contact'),
             'billingContactId' => Yii::t('payment', 'Billing contact'),
             'referenceNumber' => Yii::t('payment', 'Reference number'),

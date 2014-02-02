@@ -60,7 +60,7 @@ Below you can find a simple example on how to create a transaction and process i
 ```php
 $transaction = PaymentTransaction::create(
     array(
-        'methodId' => 1, // payment gateway id
+        'gateway' => 'paytrail', // requires the yii-paytrail extension
         'orderIdentifier' => 1, // order id or similar
         'description' => 'Test payment',
         'price' => 100.00,
