@@ -78,7 +78,9 @@ class PaymentManager extends CApplicationComponent
             throw new CException(sprintf('Failed to create payment gateway "%s".', $name));
         }
         $config = CMap::mergeArray($this->gateways[$name], $config);
-        return PaymentGateway::create($config);
+        $gateway = PaymentGateway::create($config);
+        $gateway->manager = $this;
+        return $gateway;
     }
 
     /**
@@ -101,10 +103,10 @@ class PaymentManager extends CApplicationComponent
 
         $gateway = $this->createGateway($transaction->gateway);
         $manager = $this;
-        $gateway->onTransactionProcessed = function(CEvent $event) use ($manager, $transaction) {
+        $gateway->onTransactionProcessed = function (CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_PROCESSED, $transaction);
         };
-        $gateway->onTransactionFailed = function(CEvent $event) use ($manager, $transaction) {
+        $gateway->onTransactionFailed = function (CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_FAILED, $transaction);
         };
         $gateway->handleTransaction($transaction);

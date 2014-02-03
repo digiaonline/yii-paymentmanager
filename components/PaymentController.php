@@ -15,6 +15,27 @@ abstract class PaymentController extends CController
     public $managerId = 'payment';
 
     /**
+     * @return array access filters.
+     */
+    public function filters()
+    {
+        return array(
+            'accessControl',
+        );
+    }
+
+    /**
+     * @return array access control rules.
+     */
+    public function accessRules()
+    {
+        return array(
+            array('allow', 'users' => array('@')),
+            array('deny'),
+        );
+    }
+
+    /**
      * @return PaymentManager
      * @throws CException
      */
