@@ -20,12 +20,10 @@ class m131205_094734_create_payment_transaction_table extends CDbMigration
                 PRIMARY KEY (`id`)
             ) COLLATE='utf8_general_ci' ENGINE=InnoDB;"
         );
-        $this->addForeignKey('payment_transaction_methodId', 'payment_transaction', 'methodId', 'payment_method', 'id');
     }
 
     public function down()
     {
-        $this->dropForeignKey('payment_transaction_methodId', 'payment_transaction');
         $this->dropTable('payment_transaction');
     }
 }

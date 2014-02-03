@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "crisu83/yii-arbehaviors": "1.1.*",
         "crisu83/yii-extension": ">=1.1.1"
     },
     "suggest": {

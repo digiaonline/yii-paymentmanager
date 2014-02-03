@@ -22,6 +22,11 @@
 abstract class PaymentGateway extends CComponent
 {
     /**
+     * @var PaymentManager
+     */
+    public $manager;
+
+    /**
      * @param PaymentTransaction $transaction
      */
     abstract public function handleTransaction($transaction);
