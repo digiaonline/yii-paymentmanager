@@ -15,5 +15,12 @@
     },
     "suggest": {
     	"nordsoftware/yii-paytrail": "0.1.*"
+    },
+    "autoload": {
+        "classmap": [
+            "components/",
+            "controllers/",
+            "models/"
+        ]
     }
 }
