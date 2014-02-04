@@ -37,10 +37,10 @@ class PaymentTransaction extends PaymentActiveRecord
     const STATUS_DEFAULT = 0;
     const STATUS_STARTED = 1;
     const STATUS_PROCESSED = 2;
-    const STATUS_PENDING = 3;
-    const STATUS_SUCCESSFUL = 4;
-    const STATUS_COMPLETED = 5;
-    const STATUS_FAILED = 100;
+    const STATUS_SUCCEEDED = 3;
+    const STATUS_COMPLETED = 4;
+    const STATUS_CANCELLED = 100;
+    const STATUS_FAILED = 101;
 
     /**
      * @return string the associated database table name
@@ -58,8 +58,11 @@ class PaymentTransaction extends PaymentActiveRecord
         return array_merge(
             parent::behaviors(),
             array(
+                'audit' => array(
+                    'class' => 'AuditBehavior',
+                ),
                 'workflow' => array(
-                    'class' => 'vendor.crisu83.yii-arbehaviors.behaviors.WorkflowBehavior',
+                    'class' => 'WorkflowBehavior',
                     'defaultStatus' => self::STATUS_DEFAULT,
                     'statuses' => array(
                         self::STATUS_DEFAULT => array(
@@ -72,14 +75,10 @@ class PaymentTransaction extends PaymentActiveRecord
                         ),
                         self::STATUS_PROCESSED => array(
                             'label' => t('payment', 'Processed'),
-                            'transitions' => array(self::STATUS_PENDING, self::STATUS_SUCCESSFUL, self::STATUS_FAILED),
+                            'transitions' => array(self::STATUS_SUCCEEDED, self::STATUS_CANCELLED),
                         ),
-                        self::STATUS_PENDING => array(
-                            'label' => t('payment', 'Pending'),
-                            'transitions' => array(self::STATUS_COMPLETED, self::STATUS_FAILED),
-                        ),
-                        self::STATUS_SUCCESSFUL => array(
-                            'label' => t('payment', 'Successful'),
+                        self::STATUS_SUCCEEDED => array(
+                            'label' => t('payment', 'Succeeded'),
                             'transitions' => array(self::STATUS_COMPLETED),
                         ),
                         self::STATUS_COMPLETED => array(
@@ -87,6 +86,9 @@ class PaymentTransaction extends PaymentActiveRecord
                         ),
                         self::STATUS_FAILED => array(
                             'label' => t('payment', 'Failed'),
+                        ),
+                        self::STATUS_CANCELLED => array(
+                            'label' => t('payment', 'Cancelled'),
                         ),
                         self::STATUS_DELETED => array(
                             'label' => t('payment', 'Deleted'),

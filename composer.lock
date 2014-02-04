@@ -1,0 +1,92 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "5908d00c6397acb5728226dca71cda34",
+    "packages": [
+        {
+            "name": "crisu83/yii-arbehaviors",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crisu83/yii-arbehaviors.git",
+                "reference": "429cbaa1de66f1a206499152e94e0096d7a7041c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crisu83/yii-arbehaviors/zipball/429cbaa1de66f1a206499152e94e0096d7a7041c",
+                "reference": "429cbaa1de66f1a206499152e94e0096d7a7041c",
+                "shasum": ""
+            },
+            "require-dev": {
+                "yiisoft/yii": ">=1.1.14"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "christoffer.niska@gmail.com",
+                    "homepage": "http://www.cniska.net/"
+                }
+            ],
+            "description": "A collection of active record behaviors for the Yii PHP framework.",
+            "keywords": [
+                "Behavior",
+                "active-record",
+                "json",
+                "workflow",
+                "yii"
+            ],
+            "time": "2014-01-10 14:07:27"
+        },
+        {
+            "name": "crisu83/yii-extension",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Crisu83/yii-extension.git",
+                "reference": "eafe9eae3473c683a5b767dd5bccb80c952b173f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Crisu83/yii-extension/zipball/eafe9eae3473c683a5b767dd5bccb80c952b173f",
+                "reference": "eafe9eae3473c683a5b767dd5bccb80c952b173f",
+                "shasum": ""
+            },
+            "type": "yii-extension",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "ChristofferNiska@gmail.com"
+                }
+            ],
+            "description": "Tools for building extensions for the Yii PHP framework.",
+            "time": "2013-09-03 13:28:07"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ],
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

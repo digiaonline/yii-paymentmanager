@@ -42,21 +42,11 @@ class PaymentManager extends CApplicationComponent
     public $transactionClass = 'PaymentTransaction';
 
     /**
-     * @var string
-     */
-    public $yiiExtensionAlias = 'vendor.crisu83.yii-extension';
-
-    /**
      * Initializes this component.
      */
     public function init()
     {
         parent::init();
-        Yii::import($this->yiiExtensionAlias . '.behaviors.*');
-        $this->attachBehavior('ext', new ComponentBehavior);
-        $this->createPathAlias('payment', dirname(__DIR__));
-        $this->import('components.*');
-        $this->import('models.*');
         if (!isset($this->successUrl)) {
             throw new CException('PaymentManager.successUrl must be set.');
         }
@@ -99,11 +89,12 @@ class PaymentManager extends CApplicationComponent
             throw new CException('Cannot start transaction without any items.');
         }
 
-        $this->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
-
         $gateway = $this->createGateway($transaction->gateway);
         $manager = $this;
-        $gateway->onTransactionProcessed = function (CEvent $event) use ($manager, $transaction) {
+        $gateway->onBeforeProcessTransaction = function (CEvent $event) use ($manager, $transaction) {
+            $manager->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
+        };
+        $gateway->onAfterProcessTransaction = function (CEvent $event) use ($manager, $transaction) {
             $manager->changeTransactionStatus(PaymentTransaction::STATUS_PROCESSED, $transaction);
         };
         $gateway->onTransactionFailed = function (CEvent $event) use ($manager, $transaction) {
