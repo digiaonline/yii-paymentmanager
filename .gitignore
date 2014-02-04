@@ -1,0 +1,10 @@
+# phpstorm files
+.idea/*
+
+# composer
+composer.phar
+vendor/*
+
+# codeception
+tests/_log/*
+codecept.phar

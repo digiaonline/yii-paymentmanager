@@ -17,7 +17,8 @@ class m131205_094734_create_payment_transaction_table extends CDbMigration
                 `currency` VARCHAR(255) NOT NULL,
                 `locale` VARCHAR(255) NOT NULL,
                 `status` TINYINT(4) NOT NULL DEFAULT '0',
-                PRIMARY KEY (`id`)
+                PRIMARY KEY (`id`),
+                UNIQUE KEY `orderIdentifier` (`orderIdentifier`)
             ) COLLATE='utf8_general_ci' ENGINE=InnoDB;"
         );
     }

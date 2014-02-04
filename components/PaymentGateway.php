@@ -7,18 +7,6 @@
  * @package nordsoftware.yii-payment.components
  */
 
-/**
- * Methods accessible through the 'ComponentBehavior' class:
- * @method createPathAlias($alias, $path)
- * @method import($alias)
- * @method string publishAssets($path, $forceCopy = false)
- * @method void registerCssFile($url, $media = '')
- * @method void registerScriptFile($url, $position = null)
- * @method string resolveScriptVersion($filename, $minified = false)
- * @method CClientScript getClientScript()
- * @method void registerDependencies($dependencies)
- * @method string resolveDependencyPath($name)
- */
 abstract class PaymentGateway extends CComponent
 {
     /**
@@ -32,19 +20,26 @@ abstract class PaymentGateway extends CComponent
     abstract public function handleTransaction($transaction);
 
     /**
-     * Initializes this component.
+     * Initializes this gateway.
      */
     public function init()
     {
-        $this->attachBehavior('ext', new ComponentBehavior);
     }
 
     /**
      * @param CEvent $event
      */
-    public function onTransactionProcessed(CEvent $event)
+    public function onBeforeProcessTransaction(CEvent $event)
     {
-        $this->raiseEvent('onTransactionProcessed', $event);
+        $this->raiseEvent('onBeforeProcessTransaction', $event);
+    }
+
+    /**
+     * @param CEvent $event
+     */
+    public function onAfterProcessTransaction(CEvent $event)
+    {
+        $this->raiseEvent('onAfterProcessTransaction', $event);
     }
 
     /**

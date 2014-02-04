@@ -41,6 +41,21 @@ class PaymentContact extends PaymentActiveRecord
     }
 
     /**
+     * @return array attached behaviors.
+     */
+    public function behaviors()
+    {
+        return array_merge(
+            parent::behaviors(),
+            array(
+                'audit' => array(
+                    'class' => 'AuditBehavior',
+                ),
+            )
+        );
+    }
+
+    /**
      * @return array validation rules for model attributes.
      */
     public function rules()
