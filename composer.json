@@ -10,8 +10,7 @@
         }
     ],
     "require": {
-        "crisu83/yii-arbehaviors": "1.1.*",
-        "crisu83/yii-extension": ">=1.1.1"
+        "crisu83/yii-arbehaviors": "1.1.*"
     },
     "suggest": {
     	"nordsoftware/yii-paytrail": "0.1.*"
@@ -19,7 +18,6 @@
     "autoload": {
         "classmap": [
             "components/",
-            "controllers/",
             "models/"
         ]
     }

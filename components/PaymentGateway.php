@@ -17,61 +17,15 @@ abstract class PaymentGateway extends CComponent
     /**
      * @param PaymentTransaction $transaction
      */
-    abstract public function handleTransaction($transaction);
-
-    /**
-     * Initializes this gateway.
-     */
-    public function init()
-    {
-    }
-
-    /**
-     * @param CEvent $event
-     */
-    public function onBeforeProcessTransaction(CEvent $event)
-    {
-        $this->raiseEvent('onBeforeProcessTransaction', $event);
-    }
-
-    /**
-     * @param CEvent $event
-     */
-    public function onAfterProcessTransaction(CEvent $event)
-    {
-        $this->raiseEvent('onAfterProcessTransaction', $event);
-    }
-
-    /**
-     * @param CEvent $event
-     */
-    public function onTransactionFailed(CEvent $event)
-    {
-        $this->raiseEvent('onTransactionFailed', $event);
-    }
+    abstract public function prepareTransaction(PaymentTransaction $transaction);
 
     /**
      * @param PaymentTransaction $transaction
-     * @return PaymentEvent
      */
-    protected function createEvent(PaymentTransaction $transaction)
-    {
-        return PaymentEvent::create(
-            array(
-                'transaction' => $transaction,
-                'sender' => $this,
-            )
-        );
-    }
+    abstract public function processTransaction(PaymentTransaction $transaction);
 
     /**
-     * @param array $config
-     * @return PaymentGateway
+     * @param PaymentTransaction $transaction
      */
-    public static function create($config)
-    {
-        $gateway = Yii::createComponent($config);
-        $gateway->init();
-        return $gateway;
-    }
+    abstract public function resolveTransaction(PaymentTransaction $transaction);
 }

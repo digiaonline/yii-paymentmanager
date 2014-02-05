@@ -7,18 +7,6 @@
  * @package nordsoftware.yii-payment.components
  */
 
-/**
- * Methods accessible through the 'ComponentBehavior' class:
- * @method createPathAlias($alias, $path)
- * @method import($alias)
- * @method string publishAssets($path, $forceCopy = false)
- * @method void registerCssFile($url, $media = '')
- * @method void registerScriptFile($url, $position = null)
- * @method string resolveScriptVersion($filename, $minified = false)
- * @method CClientScript getClientScript()
- * @method void registerDependencies($dependencies)
- * @method string resolveDependencyPath($name)
- */
 class PaymentManager extends CApplicationComponent
 {
     /**
@@ -68,16 +56,17 @@ class PaymentManager extends CApplicationComponent
             throw new CException(sprintf('Failed to create payment gateway "%s".', $name));
         }
         $config = CMap::mergeArray($this->gateways[$name], $config);
-        $gateway = PaymentGateway::create($config);
+        $gateway = Yii::createComponent($config);
         $gateway->manager = $this;
         return $gateway;
     }
 
     /**
-     * Starts the given transaction.
+     * Processes the given transaction.
      * @param PaymentTransaction $transaction
+     * @throws CException
      */
-    public function startTransaction(PaymentTransaction $transaction)
+    public function process(PaymentTransaction $transaction)
     {
         if (!isset($transaction->gateway)) {
             throw new CException('Cannot start transaction without a payment gateway.');
@@ -89,18 +78,17 @@ class PaymentManager extends CApplicationComponent
             throw new CException('Cannot start transaction without any items.');
         }
 
-        $gateway = $this->createGateway($transaction->gateway);
-        $manager = $this;
-        $gateway->onBeforeProcessTransaction = function (CEvent $event) use ($manager, $transaction) {
-            $manager->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
-        };
-        $gateway->onAfterProcessTransaction = function (CEvent $event) use ($manager, $transaction) {
-            $manager->changeTransactionStatus(PaymentTransaction::STATUS_PROCESSED, $transaction);
-        };
-        $gateway->onTransactionFailed = function (CEvent $event) use ($manager, $transaction) {
-            $manager->changeTransactionStatus(PaymentTransaction::STATUS_FAILED, $transaction);
-        };
-        $gateway->handleTransaction($transaction);
+        try {
+            $gateway = $this->createGateway($transaction->gateway);
+            $gateway->prepareTransaction($transaction);
+            $this->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
+            $gateway->processTransaction($transaction);
+            $this->changeTransactionStatus(PaymentTransaction::STATUS_PROCESSED, $transaction);
+            $gateway->resolveTransaction($transaction);
+        } catch (CException $e) {
+            $this->changeTransactionStatus(PaymentTransaction::STATUS_FAILED, $transaction);
+            throw $e;
+        }
     }
 
     /**
