@@ -7,18 +7,6 @@
  * @package nordsoftware.yii-payment.components
  */
 
-/**
- * Methods accessible through the 'ComponentBehavior' class:
- * @method createPathAlias($alias, $path)
- * @method import($alias)
- * @method string publishAssets($path, $forceCopy = false)
- * @method void registerCssFile($url, $media = '')
- * @method void registerScriptFile($url, $position = null)
- * @method string resolveScriptVersion($filename, $minified = false)
- * @method CClientScript getClientScript()
- * @method void registerDependencies($dependencies)
- * @method string resolveDependencyPath($name)
- */
 class PaymentManager extends CApplicationComponent
 {
     /**
