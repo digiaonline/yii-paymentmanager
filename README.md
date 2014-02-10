@@ -31,16 +31,12 @@ Add the following to your application configuration:
 
 ```php
 .....
-'import' => array(
-	'vendor.nordsoftware.yii-paymentmanager.components.*',
-	'vendor.nordsoftware.yii-paymentmanager.models.*',
-),
 'components' => array(
     .....
     'payment' => array(
-        'class' => 'vendor.nordsoftware.yii-paymentmanager.components.PaymentManager',
-        'successUrl' => array('payment/success'),
-        'failureUrl' => array('payment/failure'),
+        'class' => 'PaymentManager',
+        'successUrl' => array('order/done'),
+        'failureUrl' => array('order/summary'),
         'gateways' => array(
             .....
         ),
@@ -108,5 +104,5 @@ $transaction->addItem(
     )
 );
 
-Yii::app()->payment->startTransaction($transaction);
+Yii::app()->payment->process($transaction);
 ```
