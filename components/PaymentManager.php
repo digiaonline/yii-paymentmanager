@@ -58,6 +58,7 @@ class PaymentManager extends CApplicationComponent
         $config = CMap::mergeArray($this->gateways[$name], $config);
         $gateway = Yii::createComponent($config);
         $gateway->manager = $this;
+        $gateway->init();
         return $gateway;
     }
 
@@ -78,8 +79,8 @@ class PaymentManager extends CApplicationComponent
             throw new CException('Cannot start transaction without any items.');
         }
 
+        $gateway = $this->createGateway($transaction->gateway);
         try {
-            $gateway = $this->createGateway($transaction->gateway);
             $gateway->prepareTransaction($transaction);
             $this->changeTransactionStatus(PaymentTransaction::STATUS_STARTED, $transaction);
             $gateway->processTransaction($transaction);

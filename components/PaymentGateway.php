@@ -28,4 +28,11 @@ abstract class PaymentGateway extends CComponent
      * @param PaymentTransaction $transaction
      */
     abstract public function resolveTransaction(PaymentTransaction $transaction);
+
+    /**
+     * Initializes this gateway.
+     */
+    public function init()
+    {
+    }
 }
