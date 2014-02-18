@@ -62,7 +62,7 @@ class PaymentContact extends PaymentActiveRecord
     {
         return array(
             array(
-                'firstName, lastName, email, phoneNumber, streetAddress, postalCode, postOffice, countryCode',
+                'firstName, lastName, email, streetAddress, postalCode, postOffice, countryCode',
                 'required'
             ),
             array('status', 'numerical', 'integerOnly' => true),

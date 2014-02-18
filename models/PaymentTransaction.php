@@ -102,7 +102,7 @@ class PaymentTransaction extends PaymentActiveRecord
     public function rules()
     {
         return array(
-            array('gateway, orderIdentifier, description, currency, locale', 'required'),
+            array('gateway, orderIdentifier, currency, locale', 'required'),
             array('status', 'numerical', 'integerOnly' => true),
             array('shippingContactId, billingContactId', 'length', 'max' => 10),
             array('gateway, orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
