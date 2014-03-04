@@ -35,8 +35,12 @@ Add the following to your application configuration:
     .....
     'payment' => array(
         'class' => 'PaymentManager',
-        'successUrl' => array('order/done'),
-        'failureUrl' => array('order/summary'),
+        'contexts' => array(
+            'context1' => array(
+                'successUrl' => array('/context1/done'),
+                'failureUrl' => array('/context1/failure'),
+            ),
+        ),
         'gateways' => array(
             .....
         ),
@@ -56,6 +60,7 @@ Below you can find a simple example on how to create a transaction and process i
 ```php
 $transaction = PaymentTransaction::create(
     array(
+        'context' => 'context1', // the context name from the configuration
         'gateway' => 'paytrail', // requires the yii-paytrail extension
         'orderIdentifier' => 1, // order id or similar
         'description' => 'Test payment',
