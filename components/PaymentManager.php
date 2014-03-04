@@ -15,19 +15,19 @@ class PaymentManager extends CApplicationComponent
     public $gateways = array();
 
     /**
-     * @var mixed
-     */
-    public $successUrl;
-
-    /**
-     * @var mixed
-     */
-    public $failureUrl;
-
-    /**
      * @var string
      */
     public $transactionClass = 'PaymentTransaction';
+
+    /**
+     * @var array list of payment context configurations.
+     */
+    public $contexts = array();
+
+    /**
+     * @var PaymentContext[] list of context component available.
+     */
+    private $_contexts = array();
 
     /**
      * Initializes this component.
@@ -35,12 +35,7 @@ class PaymentManager extends CApplicationComponent
     public function init()
     {
         parent::init();
-        if (!isset($this->successUrl)) {
-            throw new CException('PaymentManager.successUrl must be set.');
-        }
-        if (!isset($this->failureUrl)) {
-            throw new CException('PaymentManager.failureUrl must be set.');
-        }
+        $this->initContexts();
     }
 
     /**
@@ -123,5 +118,43 @@ class PaymentManager extends CApplicationComponent
             throw new CException(sprintf('Failed to load payment transaction #%d.', $id));
         }
         return $transaction;
+    }
+
+    /**
+     * Resolves a payment context by name.
+     * @param string $name the name of the payment context.
+     * @return PaymentContext the payment context.
+     * @throws CException if context cannot be found.
+     */
+    public function resolveContext($name)
+    {
+        if (!isset($this->_contexts[$name])) {
+            throw new CException(sprintf('Failed to find payment context "%s".', $name));
+        }
+        return $this->_contexts[$name];
+    }
+
+    /**
+     * Creates the payment context components from the configuration.
+     * @throws CException if context config is empty or context cannot be created.
+     */
+    protected function initContexts()
+    {
+        if (empty($this->contexts)) {
+            throw new CException('PaymentManager.contexts cannot be empty.');
+        }
+        foreach ($this->contexts as $name => $config) {
+            if (!isset($config['class'])) {
+                $config['class'] = 'PaymentContext';
+            }
+            if (!isset($config['name'])) {
+                $config['name'] = $name;
+            }
+            $context = Yii::createComponent($config);
+            if (!($context instanceof PaymentContext)) {
+                throw new CException('Payment context must be an instance of PaymentContext.');
+            }
+            $this->_contexts[$name] = $context;
+        }
     }
 }

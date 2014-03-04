@@ -12,6 +12,7 @@
  *
  * The followings are the available columns in table 'payment_transaction':
  * @property string $id
+ * @property string $context
  * @property integer $gateway
  * @property integer $orderIdentifier
  * @property integer $userIdentifier
@@ -102,10 +103,10 @@ class PaymentTransaction extends PaymentActiveRecord
     public function rules()
     {
         return array(
-            array('gateway, orderIdentifier, currency, locale', 'required'),
+            array('context, gateway, orderIdentifier, currency, locale', 'required'),
             array('status', 'numerical', 'integerOnly' => true),
             array('shippingContactId, billingContactId', 'length', 'max' => 10),
-            array('gateway, orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
+            array('context, gateway, orderIdentifier, userIdentifier, referenceNumber, description, currency, locale', 'length', 'max' => 255),
         );
     }
 
@@ -129,6 +130,7 @@ class PaymentTransaction extends PaymentActiveRecord
     {
         return array(
             'id' => Yii::t('payment', 'ID'),
+            'context' => Yii::t('payment', 'Context'),
             'gateway' => Yii::t('payment', 'Gateway'),
             'orderIdentifier' => Yii::t('payment', 'Order identifier'),
             'userIdentifier' => Yii::t('payment', 'User identifier'),
@@ -158,7 +160,7 @@ class PaymentTransaction extends PaymentActiveRecord
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      */
     public function addShippingContact($attributes)
     {
@@ -171,7 +173,7 @@ class PaymentTransaction extends PaymentActiveRecord
     }
 
     /**
-     * @param $attributes
+     * @param array $attributes
      */
     public function addBillingContact($attributes)
     {
