@@ -13,7 +13,7 @@
         "crisu83/yii-arbehaviors": "1.1.*"
     },
     "suggest": {
-    	"nordsoftware/yii-paytrail": "0.1.*"
+    	"nordsoftware/yii-paytrail": "1.0.*"
     },
     "autoload": {
         "classmap": [
