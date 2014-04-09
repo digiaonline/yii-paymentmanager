@@ -17,7 +17,7 @@ Add the following to your composer.json file:
 ```js
 .....
 "require": {
-	"nordsoftware/yii-paymentmanager": "0.1.*"
+	"nordsoftware/yii-paymentmanager": "1.0.*"
 }
 ````
 
@@ -66,7 +66,6 @@ $transaction = PaymentTransaction::create(
         'description' => 'Test payment',
         'price' => 100.00,
         'currency' => 'EUR',
-        'vat' => 28.00,
     )
 );
 
@@ -93,7 +92,6 @@ $transaction->addItem(
         'price' => 19.90,
         'vat' => 23.00,
         'discount' => 10.00,
-        'type' => 1,
     )
 );
 
@@ -105,7 +103,6 @@ $transaction->addItem(
         'price' => 49.90,
         'vat' => 23.00,
         'discount' => 50.00,
-        'type' => 1,
     )
 );
 
