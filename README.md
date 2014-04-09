@@ -52,6 +52,25 @@ Add the following to your application configuration:
 _Please note that the payment manager does not include any actual payment gateway implementations.
 For an example implementation see our Paytrail implementation at: http://github.com/nordsoftware/yii-paytrail_
 
+If you are not using composer's autoload, then you need to add the following imports to your application configuration:
+
+```php
+.....
+'import' => array(
+    .....
+    'webroot.vendor.nordsoftware.yii-paymentmanager.components.*',
+    'webroot.vendor.nordsoftware.yii-paymentmanager.models.*',
+    'webroot.vendor.nordsoftware.yii-paymentmanager.migrations.*',
+    'webroot.vendor.nordsoftware.yii-audit.behaviors.*',
+    'webroot.vendor.nordsoftware.yii-audit.models.*',
+    'webroot.vendor.crisu83.yii-arbehaviors.behaviors.*',
+    .....
+),
+.....
+```
+
+_Please note that you need to change "webroot" to match your own configuration._
+
 ### Create a transaction
 
 With the payment manager it is easy to create a unified transaction and pay it using the payment gateway of your choice.
