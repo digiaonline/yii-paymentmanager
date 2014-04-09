@@ -11,7 +11,7 @@
     ],
     "require": {
         "crisu83/yii-arbehaviors": "1.1.*",
-        "nordsoftware/yii-audit": "1.1.*"
+        "nordsoftware/yii-audit": "1.2.*"
     },
     "suggest": {
     	"nordsoftware/yii-paytrail": "1.0.*"
