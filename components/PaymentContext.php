@@ -26,4 +26,11 @@ class PaymentContext extends CComponent
      * @var string the context failure url.
      */
     public $failureUrl;
+	
+	/**
+	 * @var mixed a valid callback to run if the payment gateway calls a "notify" endpoint.
+	 * This can be useful when the payment gateway marks the payment as paid at an unknown point in time.
+	 * @see http://php.net/manual/en/language.types.callable.php
+	 */
+	public $notifyCallback;
 }
