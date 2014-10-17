@@ -66,15 +66,15 @@ class PaymentTransaction extends PaymentActiveRecord
                 'statuses' => array(
                     self::STATUS_DEFAULT => array(
                         'label' => Yii::t('payment', 'Default'),
-                        'transitions' => array(self::STATUS_STARTED, self::STATUS_DELETED),
+                        'transitions' => array(self::STATUS_STARTED, self::STATUS_DELETED, self::STATUS_FAILED),
                     ),
                     self::STATUS_STARTED => array(
                         'label' => Yii::t('payment', 'Started'),
-                        'transitions' => array(self::STATUS_PROCESSED, self::STATUS_REFUSED),
+                        'transitions' => array(self::STATUS_PROCESSED, self::STATUS_REFUSED, self::STATUS_FAILED),
                     ),
                     self::STATUS_PROCESSED => array(
                         'label' => Yii::t('payment', 'Processed'),
-                        'transitions' => array(self::STATUS_SUCCEEDED, self::STATUS_FAILED),
+                        'transitions' => array(self::STATUS_SUCCEEDED, self::STATUS_COMPLETED, self::STATUS_FAILED),
                     ),
                     self::STATUS_SUCCEEDED => array(
                         'label' => Yii::t('payment', 'Successful'),
